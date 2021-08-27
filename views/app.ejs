@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="shortcut icon" href="#" />
+  <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+
+  <title>Bot Analyzer Express</title>
+</head>
+
+<body>
+  <div id="plot"></div>
+
+  <h1>
+    <%= mensaje %>
+  </h1>
+
+  <div class="container">
+    <p><strong>Ordenada</strong><span id="Ordenada"></span></p>
+    <p><strong>Abcisa</strong><span id="Abcisa"></span></p>
+  </div>
+
+  <script>
+    function plot(xdata, ydata) {
+      let x = xdata;
+      let y1 = ydata;
+      let y2 = xdata;
+
+      var trace1 = {
+        x: xdata,
+        y: ydata,
+        name: 'prices',
+        type: 'scatter'
+      };
+
+      var trace2 = {
+        x: xdata,
+        y: xdata,
+        name: 'operations',
+        yaxis: 'y2',
+        type: 'scatter'
+      };
+
+      var data = [trace1, trace2];
+
+      var layout = {
+        title: 'Bot trailing and ban analyze',
+        yaxis: { title: 'asset prices' },
+        yaxis2: {
+          title: 'operations',
+          titlefont: { color: 'rgb(148, 103, 189)' },
+          tickfont: { color: 'rgb(148, 103, 189)' },
+          overlaying: 'y',
+          side: 'right'
+        }
+      };
+      Plotly.newPlot('plot', data, layout);
+    }
+
+
+  </script>
+
+
+  <script>
+    fetch('./data')
+      .then(response => response.json())
+      .then(json => {
+        const abcisa = document.getElementById('Abcisa');
+        abcisa.innerText = json.xdata;
+        const ordenada = document.getElementById('Ordenada');
+        ordenada.innerText = json.ydata;
+        plot(json.xdata, json.ydata);
+        console.log(json.xdata, json.ydata);
+      });
+  </script>
+</body>
