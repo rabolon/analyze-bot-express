@@ -13,33 +13,36 @@
 <body>
   <div id="plot"></div>
 
-  <h1>
+  <!-- <h1>
     <%= mensaje %>
   </h1>
 
   <div class="container">
-    <p><strong>Ordenada</strong><span id="Ordenada"></span></p>
     <p><strong>Abcisa</strong><span id="Abcisa"></span></p>
-  </div>
+    <p><strong>Ordenada1: </strong><span id="Ordenada1"></span></p>
+    <p><strong>Ordenada2: </strong><span id="Ordenada2"></span></p>
+  </div> -->
 
   <script>
-    function plot(xdata, ydata) {
+    function plot(xdata, ydata, zdata) {
       let x = xdata;
       let y1 = ydata;
-      let y2 = xdata;
+      let y2 = zdata;
 
       var trace1 = {
         x: xdata,
         y: ydata,
         name: 'prices',
+        mode: 'lines+markers',
         type: 'scatter'
       };
 
       var trace2 = {
         x: xdata,
-        y: xdata,
+        y: zdata,
         name: 'operations',
-        yaxis: 'y2',
+        //yaxis: 'y2',
+        mode: 'markers',
         type: 'scatter'
       };
 
@@ -67,12 +70,17 @@
     fetch('./data')
       .then(response => response.json())
       .then(json => {
-        const abcisa = document.getElementById('Abcisa');
-        abcisa.innerText = json.xdata;
-        const ordenada = document.getElementById('Ordenada');
-        ordenada.innerText = json.ydata;
-        plot(json.xdata, json.ydata);
-        console.log(json.xdata, json.ydata);
+        // const abcisa = document.getElementById('Abcisa');
+        // abcisa.innerText = json.xdata;
+
+        // const ordenada1 = document.getElementById('Ordenada1');
+        // ordenada1.innerText = json.ydata;
+
+        // const ordenada2 = document.getElementById('Ordenada2');
+        // ordenada2.innerText = json.zdata;
+
+        plot(json.xdata, json.ydata, json.zdata);
+        console.log(json.xdata, json.ydata, json.zdata);
       });
   </script>
 </body>
